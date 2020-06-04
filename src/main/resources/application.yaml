@@ -1,0 +1,79 @@
+spring:
+  h2.console:
+    enabled: true
+    path: /h2
+    
+   
+  profiles:
+    active: h2mem
+
+  http.encoding:
+    force: false
+    enabled: false
+    force-response: false
+
+  application.name: anz-account-service
+
+  batch:
+    job.enabled: false
+    initialize-schema: never
+
+  jpa:
+    properties:
+      javax:
+        persistence:
+          validation.mode: none
+          sharedCache.mode: ENABLE_SELECTIVE
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  data:
+    rest:
+      default-media-type: application/json
+
+server:
+  port: 8081
+  
+
+metrics.export:
+  delay-millis: 10000
+  enabled: true
+
+app.metrics.export.statsd:
+  host: localhost
+  port: 8125
+  prefix: anzaccountservice
+
+info:
+  app:
+    name: API for acocunt Service
+    description: API for account service for Customer
+    version: 0.0.1-SNAPSHOT
+
+---
+
+spring:
+  profiles: h2mem
+ 
+  datasource:
+    continue-on-error: false
+    url: jdbc:h2:mem:app;
+    username: sa
+    password: 
+    platform: h2
+    driver-class-name: org.h2.Driver
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  flyway:
+    enabled: true
+    clean-on-validation-error: true
+    validate-on-migrate: false
+    locations: classpath:db/migration/h2
+
+---
+
